@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cocoa Farms Ghana</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha384-o/2yZuJZWGJ4s/adjxVW71R+EO/LyCwdQfP5UWSgX/w87iiTXuvDZaejd3TsN7mf" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha384-okbbMvvx/qfQkmiQKfd5VifbKZ/W8p1qIsWvE1ROPUfHWsDcC8/BnHohF7vPg2T6" crossorigin="">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-geotiff/leaflet-geotiff.js"></script>
+    <style>
+        #title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#title h1 {
+    font-size: 24px;
+    color: #333;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
+
+#subheading {
+    font-size: 14px;
+    color: #333;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    font-style: italic;
+}
+body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: white; }
+    #map { 
+        width: calc(100% - 40px);
+        height: calc(100% - 40px);
+        margin: 20px; }
+
+        .button {
+            position: absolute; bottom: 25px; z-index: 1000;
+            background-color: #e6f3ff; padding: 5px 10px; border: 1px solid #ccc;
+            border-radius: 4px; cursor: pointer;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 0;
+            background-color: whitesmoke;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+
+        .leaflet-popup-content {
+            padding: 10px;
+        }
+
+        .custom-popup .leaflet-popup-tip-container {
+    display: none;
+}
+
+
+    .custom-popup-top-left {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+    transform: none !important; }/* Removes Leaflet's default positioning */
+        
+        #toggleLayerButton1 { bottom: 25px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton2 { bottom: 55px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton3 { bottom: 85px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton4 { bottom: 115px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton5 { bottom: 145px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton6 { bottom: 175px; right: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+        #toggleLayerButton7 { bottom: 25px; left: 30px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+
+    </style>
+</head>
+<body>
+    <div id="background"></div>
+    <div id="title">
+        <h1>Mapping Cocoa Farms in Ghana</h1>
+    </div>
+    <div id="subheading">
+    <h2>Digitizing Historical Farm Maps from the Early 1900s</h2>
+</div>
+    <div id="map"></div>
+
+    <button id="toggleLayerButton1" class=button onclick="toggleTileLayer('shai', [6.09174, -0.374749], 15, 'Shai Nankese Company Land</br></br>Location and area. This company land, which has an area of about 596 acres, lies astride the road from Nankese to Akwadum; the town of Nankese has now spread over part of the land.</br></br>Date of acquisition and cost. The land was bought from the chief of Asafo, in about 1906, for about £700.</br></br>The company members. The original company membership numbered about 34, of whom 28 were Shai (both friends and relatives); the remainder were from Ada (4 members) and from Prampram and Ningo (1 each).</br></br>The original division of the land. The base-line of the land, from which farming started, was the long northern boundary, which followed the Asuboni stream for part of its length.</br></br>The subsequent division of the land. The map and other records relate to a date, over ten years ago, when the Minsitry of Agriculture first started to treat this area for swollen shoot, and at that time perhaps 20 of the original 34 farmers were still alive. Of the remained, 2 had sold all their land, 6 had been inherited by a single son, 1 by a daughter, 4 by 2 or more sons and 1 by a son and a grandson.')">Shai Nankese — 1912</button>
+    <button id="toggleLayerButton2" class=button onclick="toggleTileLayer('kofi',[5.61129, -0.582704], 15, 'Kofi Pare Family Land</br></br>Location and area. The Kofi Pare family land is situated in an area for known as Wansanbirampa, about 10 miles west of Kraboa-Coaltar, on a road which is nearly impassable during the rains. The area of the surveyed portion of the land is 1,152 acres, which excludes the unsurveyed portion (shown on the plan) and an unknown area to the north which was resold. The Ayensu stream and its tributary the Suwurum provided the southern and western boundaries and another stream may have mark original northern boundary. The recorded population of Kofi Pare town (and associated villages) in 1948 was 1,626-and despite the destruction of most of the cocoa by shoot it may be much the same today.</br></br>Date of acquisition and cost. Kofi Pare, an Aburi (Akwapim) farmer, approached the chief of Akantin, a small Akim town about 10 miles north of Asamankese, with a view to buying this land in about 1911, the guaha ceremony being performed about a year later. There was little farming on the land until after the war. The price of the whole land was about £400 plus expenses of boundary cutting, of about £100.')">Kofi Pare — 1911</button>
+    <button id="toggleLayerButton3" class=button onclick="toggleTileLayer('kwesi', [6.03939, -0.551549], 13.5,'Kwesi Komfo Company Land</br></br> Location and area. The Kwesi Komfo Area, which lies about 5 miles west of Suhum, is entirely roadless; it takes its name from an Akim village which can be seen on the northern bound With an area of some io square miles it is bounded by a number of streams, including the Mame, the Kua, and the Saforosua, and other streams flow through the area. Much of the land to the west is very hilly (hence the long thin strips, crossing the contours, which originally belonged to individual Amanokrom and Larteh farmers) and the mountainous Atewa Range forest reserve lies to the north-west. The Area boundary cuts across some of the company lands, as can be seen on the map.</br></br>Although the map is based on an analysis of the Division of Agriculture records relating to the present-day ownership of all the thousands of cocoa farms within the Kwesi Komfo Area, the intention is to show the original pattern of group (not individual) land ownership soon after the land was first disposed of by the chief of Apapam.</br></br>While there are some uncertainties (it is not clear, for instance, whether the individual Tutu farmers owning land in the middle of the area were associated with other when the land was first acquired), the more important of which are in broken lines on the map, the general impression given is probably fairly reliable, representing the situation in about 1920, by which time most of the company lands had been divided even if the farmers had not all started planting.')">Kwesi Komfo — 1912</button>
+    <button id="toggleLayerButton4" class=button onclick="toggleTileLayer('kyerepon', [6.03343, -0.560296], 14.6, 'Kyerepon Company Land</br></br> Location and area. This company land lies in the Kwesi Komfo Area; it extends between two streams, the Kua and Kuawa, which unite at its southern tip. The area of the land, as surveyed today, is about 439 acres. </br></br>Date of acquisition and cost. The land was bought from the chief of Apapam, for about £500, in 1912, and was divided in about 1913.</br></br>The company members. The leader of this company of patrilineal [Kyerepon] people was Yaw Ofori, who later became the chief of Abonse. There were about 19 original company members of whom came from Abonse, Aseseeso, and two other [Kyerepon] towns, Abirew and Awukugua.</br></br>The sequence of migration. Though the principal source of finance was the oil palm, some of the younger farmers had earned money by working as cocoa labourers with other Akwapim. The [Kyerepon] were late starters in the race into Akim country and it was not until about 1905 that Yaw Ofori and his associates acquired their first land at Amanase, about 30 miles from home. Yaw Ofori subsequently acquired a small land at Suhum, the Nobeso land, another land near by (which was never planted owing to the establishment of the forest reserve) and one near Akwatia. Other company members acquired lands in some of these same areas and elsewhere and the migration continues.')">Kyerepon — 1912</button>
+    <button id="toggleLayerButton5" class=button onclick="toggleTileLayer('mamfe',[6.06087, -0.527867], 15, 'Mamfe Soforosua Company Land</br></br>Location and area. The Saforosua stream, which provides the northern boundary of this company land, is a small tributary of the Densu. The land lies about two miles south of Kimi-Odumase and is partly in the Kwesi Komfo Area, and partly in the adjoining Kabu Hill Area. Its area, including portions sold to outsiders, is about 759 acres.</br></br>Date of acquisition and cost. The land was bought from the chief of Apapam, presumably a few years before 1914—the precise date could not be ascertained. Present-day informants had no idea of its price.</br></br>The company members. Six farmers, 5 from Mamfe (Akwapim) and 1 from Akropong, were associated in the purchase of the land which was *bought especially for the children.* Probably only 1 of the 5 Mamfe farmers retained any substantial portion of land for his own use, the others giving nearly all their land away, mainly to their sons.')">Mamfe Soforosua — 1930</button>
+    <button id="toggleLayerButton6" class=button onclick="toggleTileLayer('trayo', [6.04932, -0.383447], 14.2, 'Mamfe Trayo Company Land</br></br>Location and area. The land is situated south of Nankese (east of Suhum), the southern boundary being the river Mame. Trayo was the name of an Akim hunter who was there when the migrants first arrived-there is no village of this name. Other large lands in the Trayo area were bought by Mamfe people. The area of this land is 990 acres.</br></br>Date of acquisition and cost. Papers dated 1907 and 1911 record the receipt by the chief of Asafo of two sums of £350 for the land. As receipts were often drawn up long af performance of the guaha ceremony, which marked the formal transfer of owners indeed long after payment (being then mere records of past transactions), the date may have been before 1907, though probably not long before. Many of the farmers waited a very long time before they started farming on any scale: it is said that the owner of share IV, for instance, never farmed his land and it was not until about 1930 that this relatives went there.')">Mamfe Trayo — 1907</button>
+    <button id="toggleLayerButton7" class=button onclick="toggleTileLayer('shai', [6.99867,-0.69605], 8, 'The farm maps displayed here are digitized from a book published in 1961 by Polly Hill titled Migrant Cocoa-Farmers of Southern Ghana: A Study in Rural Capitalism (Cambridge University Press).</br></br>Not long after the migration of farmers to central Ghana started, the swollen shoot disease destroyed most of the cocoa trees in the historic cocoa-growing area of Akwapim and Akim Abuakwa.</br></br>These cocoa farms were mapped by staff of the Ghanaian Ministry of Agriculture in the early 1900s in order to facilitate removal of affected trees and compensate farmers whose lands were no longer viable. All the farm maps displayed on this site are from areas lying within the former Devastated Area where the swollen shoot disease had completely wiped out cocoa trees.')">Background Information</button>
+
+    <script>
+       var satelliteview = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            minZoom: 6,
+            maxZoom: 16,
+        });
+       
+       var map = L.map('map').setView([7.1500,-0.69605], 7);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var layers = {
+            shai: L.tileLayer('./shainankese/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'},),
+            kofi: L.tileLayer('./kofipare/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'}),
+            kwesi: L.tileLayer('./kwesikomfo/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'}),
+            kyerepon: L.tileLayer('./kyerepon/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'}),
+            mamfe: L.tileLayer('./mamfesaforusua/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'}),
+            trayo: L.tileLayer('./mamfetrayo/{z}/{x}/{y}.png', {minZoom: 10, maxZoom: 17, tms: false, attribution: 'Created by QGIS'})
+        };
+
+        var cocoafarms = L.tileLayer('./cocoafarms/{z}/{x}/{y}.png', {
+            minZoom: 6,
+            maxZoom: 16,
+            maxNativeZoom: 12
+        });
+
+        function toggleTileLayer(layername, center, zoom, popupText) {
+    var layer = layers[layername];
+    map.closePopup(); // Close existing popups
+    Object.values(layers).forEach(l => map.removeLayer(l)); // Remove all other layers
+    layer.addTo(map); // Add the required layer
+    map.flyTo(center, zoom, {duration: 2}); // Fly to the specified location
+
+    if (popupText) {
+        createPersistentPopup(popupText);
+    }
+
+    };
+
+    function createPersistentPopup(popupText) {
+    var popup = L.popup({
+        closeButton: false,
+        className: 'custom-popup custom-popup-top-left',
+        autoPan: false // Prevents the map from panning the popup into view
+    }).setContent(popupText);
+
+    map.openPopup(popup, map.containerPointToLatLng([10, 10])); // Open the popup at the top-left corner
+
+    // Ensure the popup stays in the top-left corner on map movement
+    map.on('move', function() {
+        var topLeft = map.containerPointToLatLng([10, 10]); // Convert top-left screen position to latLng
+        popup.setLatLng(topLeft);
+})
+        }
+        createPersistentPopup("'The farm maps displayed here are digitized from a book published in 1961 by Polly Hill titled Migrant Cocoa-Farmers of Southern Ghana: A Study in Rural Capitalism (Cambridge University Press).</br></br>Not long after the migration of farmers to central Ghana started, the swollen shoot disease destroyed most of the cocoa trees in the historic cocoa-growing area of Akwapim and Akim Abuakwa.</br></br>These cocoa farms were mapped by staff of the Ghanaian Ministry of Agriculture in the early 1900s in order to facilitate removal of affected trees and compensate farmers whose lands were no longer viable. All the farm maps displayed on this site are from areas lying within the former Devastated Area where the swollen shoot disease had completely wiped out cocoa trees.");
+
+var overlayMaps = {
+    "Basemap": map,
+   "Satellite view": satelliteview,
+ }
+
+ var tileControl = {
+    "Cocoa Farms 2021": cocoafarms
+} 
+
+var layerControl = L.control.layers(overlayMaps, tileControl, {
+    position: 'topright'
+}).addTo(map);
+
+map.zoomControl.remove();
+
+L.control.zoom({
+  position: 'topright'
+}).addTo(map);
+
+    </script>
+</body>
+</html>
